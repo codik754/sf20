@@ -1,4 +1,6 @@
 //Файл serverchat.h
+#pragma once
+
 #include "iserver.h"
 #include "tcpserver.h"
 #include "user.h"

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "iserver.h"
+#include "datetime.h"
 #include <unistd.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -17,6 +18,8 @@ class TcpServer : public IServer{
    uint16_t port_;  //порт для обмена сообщениями 
    char m_[lengthMessage]; //массив для отправки и получения сообщений
    int connection_;//переменная для соединения
+   unsigned short amountErrors_; //количество подряд идущих ошибок
+   Datetime timing_; //время последней ошибки. Нужно для сравнения
 public:
    //Конструктор по умолчанию
    TcpServer();
@@ -37,4 +40,6 @@ public:
 
    //Напечатать текущую дату и время
    void printDateTime();
+   //Это ошибка
+   void thisIsError();
 };

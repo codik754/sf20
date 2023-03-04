@@ -5,12 +5,12 @@
 #include <string>
 
 //Конструктор по умолчанию
-TcpServer::TcpServer() : sockets_(-1), serveraddr_(), client_(), port_(55000), connection_(-1){
+TcpServer::TcpServer() : sockets_(-1), serveraddr_(), client_(), port_(55000), connection_(-1), amountErrors_(0), timing_(){
    bzero(m_, lengthMessage);
 }
 
 //Конструктор с параметрами
-TcpServer::TcpServer(uint16_t port) : sockets_(-1), serveraddr_(), client_(), port_(port), connection_(-1){
+TcpServer::TcpServer(uint16_t port) : sockets_(-1), serveraddr_(), client_(), port_(port), connection_(-1), amountErrors_(0), timing_(){
    bzero(m_, lengthMessage);
 }
 
@@ -96,6 +96,7 @@ void TcpServer::receive(char *buf, short length){
    else{
       printDateTime();
       std::cout << "error receiving data from the client" << std::endl;
+      thisIsError();
    }
 }
 
@@ -166,4 +167,27 @@ bool TcpServer::send(const bool bit){
 void TcpServer::printDateTime(){
    Datetime now;
    std::cout << "[" << now.getStrAll() << "] ";
+}
+
+//Это ошибка
+void TcpServer::thisIsError(){
+   Datetime now;//текущие время
+
+   //Проверяем меньше ли двух секунд разница во времени
+   if(timing_.diffTwoSec(now)){
+      ++amountErrors_;//увеличиваем количество подряд идущих ошибок
+      timing_.setNow();//устанавливаем текущее время
+   }
+   else{
+      amountErrors_ = 0;//обнуляем количество подряд идущих ошибок
+      timing_.setNow();//утанавливаем текущее время
+   }
+
+   //Проверяем количество ошибок
+   if(amountErrors_ == 10){
+      //Если выполняется условие, то прервываем програму
+      printDateTime();
+      std::cout << "Several consecutive errors. The server operation is interrupted" << std::endl;
+      exit(1);
+   }
 }

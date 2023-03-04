@@ -106,3 +106,39 @@ int Datetime::getMonth() const{
 int Datetime::getYear() const{
    return year_;
 }
+
+//Разница меньше двух секунд
+bool Datetime::diffTwoSec(const Datetime &other) const{
+   if(year_ != other.year_){
+      return false;
+   }
+
+   if(month_ != other.month_){
+      return false;
+   }
+
+   if(day_ != other.day_){
+      return false;
+   }
+
+   if(hour_ != other.hour_){
+      return false;
+   }
+   
+   if(min_ != other.min_){
+      return false;
+   }
+
+   if(sec_ > other.sec_){
+      if((sec_ - other.sec_) > 2){
+         return false;
+      }
+   }
+   else{
+      if((other.sec_ - sec_) > 2){
+         return false;
+      }
+   }
+
+   return true;
+}

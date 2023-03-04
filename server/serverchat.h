@@ -14,10 +14,12 @@ class ServerChat{
    std::unique_ptr<IServer> server_;//указатель для работы с сервером
    std::vector<User> users_;//вектор пользователей
    std::vector<Message> messages_;//вектор сообщений
+   unsigned short amountErrors_; //количество подряд идущих ошибок
+   Datetime timing_; //время последней ошибки. Нужно для сравнения
    
 public:
    //Конструктор по умолчанию
-   ServerChat() : server_(new TcpServer(55000)), users_(), messages_() {
+   ServerChat() : server_(new TcpServer(55000)), users_(), messages_(), amountErrors_(0), timing_() {
       SHA256 sha256;
       users_.emplace_back("admin", sha256("a123"));//добавляем админа
    }
@@ -54,5 +56,7 @@ public:
 
    //Добавить сообщение
    int addMessage(const std::string &from, const std::string &to, const std::string &text);
-
+   
+   //Это ошибка
+   void thisIsError();
 };

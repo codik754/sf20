@@ -48,5 +48,8 @@ public:
    int getMonth() const;
    //Получить год
    int getYear() const;
+   
+   //Разница меньше двух секунд
+   bool diffTwoSec(const Datetime &other) const;
 };
 

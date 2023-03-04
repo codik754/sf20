@@ -157,3 +157,27 @@ int ServerChat::addMessage(const std::string &from, const std::string &to, const
 
    return 1;
 }
+
+//Это ошибка
+void ServerChat::thisIsError(){
+   Datetime now;//текущие время
+
+   //Проверяем меньше ли двух секунд разница во времени
+   if(timing_.diffTwoSec(now)){
+      ++amountErrors_;//увеличиваем количество подряд идущих ошибок
+      timing_.setNow();//устанавливаем текущее время
+   }
+   else{
+      amountErrors_ = 0;//обнуляем количество подряд идущих ошибок
+      timing_.setNow();//утанавливаем текущее время
+   }
+
+   //Проверяем количество ошибок
+   if(amountErrors_ >= 10){
+      //Если выполняется условие, то прервываем програму
+      printDateTime();
+      std::cout << "Several consecutive errors. The server operation is interrupted" << std::endl;
+      exit(1);
+   }
+}
+

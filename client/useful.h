@@ -1,4 +1,6 @@
 //Файл useful.h
+#pragma once
+
 #include <string>
 
 void setColor(const std::string &color);//установить цвет текста в терминале

@@ -1,4 +1,6 @@
 ﻿//Файл chat.h
+#pragma once
+
 #include <vector>
 #include "message.h"
 #include "sha256.h"

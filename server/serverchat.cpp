@@ -175,9 +175,9 @@ void ServerChat::thisIsError(){
    //Проверяем количество ошибок
    if(amountErrors_ >= 10){
       //Если выполняется условие, то прервываем програму
-      printDateTime();
-      std::cout << "Several consecutive errors. The server operation is interrupted" << std::endl;
-      exit(1);
+      std::string str = now.getStrAll();
+      str += "Exception: Several consecutive errors. The server operation is interrupted";
+      throw str;
    }
 }
 

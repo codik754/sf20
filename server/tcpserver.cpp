@@ -22,9 +22,10 @@ void TcpServer::config(){
    sockets_ = socket(AF_INET, SOCK_STREAM, 0);
    
    if(sockets_ == -1){
-      printDateTime();
-      std::cout << "Socket creation failed!" << std::endl;
-      exit(1);
+      Datetime now; 
+      std::string str = "[" + now.getStrAll() + "] ";
+      str += "Exception: Socket creation failed!";
+      throw str;
    }
 
    serveraddr_.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -38,9 +39,10 @@ void TcpServer::config(){
    
    //Если привязать не удалось
    if(bind_status == -1){
-      printDateTime();
-      std::cout << "Socket binding failed!" << std::endl;
-      exit(1);
+      Datetime now; 
+      std::string str = "[" + now.getStrAll() + "] ";
+      str += "Exception: Socket binding failed!";
+      throw str;
    }
   
    printDateTime();
@@ -55,9 +57,10 @@ void TcpServer::listenAndWait(){
    int connection_status = listen(sockets_, 5);
    
    if(connection_status == -1){
-      printDateTime();
-      std::cout << "Server is unable to listen for new connections" << std::endl;
-      exit(1);
+      Datetime now; 
+      std::string str = "[" + now.getStrAll() + "] ";
+      str += "Exception: Server is unable to listen for new connections";
+      throw str;
    }
    else{
       printDateTime();
@@ -68,9 +71,10 @@ void TcpServer::listenAndWait(){
    connection_ = accept(sockets_, (struct sockaddr*) &client_, &length);
 
    if(connection_ == -1){
-      printDateTime();
-      std::cout << "Server is unable to accept the data from client" << std::endl;
-      exit(1);
+      Datetime now; 
+      std::string str = "[" + now.getStrAll() + "] ";
+      str += "Exception: Server is unable to accept the data from client";
+      throw str;
    }
 
    printDateTime();
@@ -185,9 +189,8 @@ void TcpServer::thisIsError(){
 
    //Проверяем количество ошибок
    if(amountErrors_ == 10){
-      //Если выполняется условие, то прервываем програму
-      printDateTime();
-      std::cout << "Several consecutive errors. The server operation is interrupted" << std::endl;
-      exit(1);
+      std::string str = "[" + now.getStrAll() + "] ";
+      str += "Exception: Several consecutive errors. The server operation is interrupted";
+      throw str;
    }
 }
